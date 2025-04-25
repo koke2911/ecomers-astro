@@ -65,7 +65,7 @@ export default defineConfig({
     📍 src/pages/ProductosPage.astro
     Similar a la principal, pero con contenido dinámico en el centro gracias al componente <Productos />, que muestra los productos por categoría.
 
-🧩 Componentes
+🧩 Componentes 
 
     <Header />
     📍 src/components/Header.astro
