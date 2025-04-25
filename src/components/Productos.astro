@@ -71,7 +71,7 @@ const data = await response.json();
             overlay.style.display = "flex";
             overlay.style.alignItems = "center";
             overlay.style.justifyContent = "center";
-            overlay.onclick = () => overlay.remove(); // Close on click
+            overlay.onclick = () => overlay.remove(); 
 
             const img = document.createElement("img");
             img.src = src;
@@ -87,7 +87,7 @@ const data = await response.json();
         btn.addEventListener("click", () => {
             const modalDiv = document.getElementById("ModalDiv");
             modalDiv.style.display = "block";
-            modalDiv.onclick = () => (modalDiv.style.display = "none"); // Close on click
+            modalDiv.onclick = () => (modalDiv.style.display = "none");
         });
     });
 </script>
