@@ -1,6 +1,4 @@
 ---
-import logo from "../assets/logo.png";
-
 const url = new URL(Astro.request.url);
 let myParam = url.searchParams.get("categoria");
 
@@ -15,6 +13,8 @@ const data = await response.json();
 ---
 
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 <title>E-Comers Fullstack</title>
 <link rel="icon" type="image/png" href="../assets/logo.png" />
 
@@ -47,10 +47,11 @@ const data = await response.json();
                     {data.map((cat: any) => <option value={cat}>{cat}</option>)}
                 </select>
             </li>
+             <li><p class="nav-link" id="AccesoriosBtn">Registrate</p></li>
         </ul>
     </nav>
-    <a id="registroBtn" class="nav-link">Registrate</a>
-    <div class="cart-container">
+    
+    <div class="cart-containerCar">
         <button class="cart-btn">
             <span class="cart-icon">🛒</span>
             <span class="cart-count">0</span>
@@ -100,9 +101,15 @@ const data = await response.json();
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
         flex-wrap: wrap;
+        
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 95%;
+        z-index: 1000;
     }
 
-    .logo-container img {
+   .logo-container img {
         height: 50px;
         width: auto;
     }
@@ -123,12 +130,6 @@ const data = await response.json();
     }
 
     .nav-link {
-        /* text-decoration: none;
-        color: rgb(0, 113, 227);
-        font-size: 18px;
-        font-weight: bold;
-        transition: color 0.3s ease;
-        border: none; */
         font-size: 15px;
         font-weight: 400;
         letter-spacing: -0.01em;
@@ -189,7 +190,6 @@ const data = await response.json();
         display: none;
     }
 
-    /* Media Queries */
     @media (max-width: 861px) {
         .header {
             flex-direction: column;
@@ -227,7 +227,7 @@ const data = await response.json();
 
         .cart-container {
             margin-top: 1rem;
-            width: 100%;
+            width: 9%;
         }
 
         .cart-btn {
@@ -244,7 +244,7 @@ const data = await response.json();
             border-radius: 8px;
             border: none;
             cursor: pointer;
-            width: 100%;
+            width: 95%;
             text-align: center;
             margin-bottom: 1rem;
         }
