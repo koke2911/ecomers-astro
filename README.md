@@ -105,7 +105,7 @@ npm run dev
 
 📬 Contacto
 
-¿Tenés ideas o sugerencias? ¡Abrí un issue o mandá un pull request!
+¿Tienes ideas o sugerencias? ¡Abre un issue o manda un pull request!
 📧 victor.martinez.zamorano@estudiante.ipss.cl 
 📝 Licencia
 
