@@ -1,48 +1,114 @@
-# Astro Starter Kit: Basics
+# 🚀 ecomers-astro
 
-```sh
-npm create astro@latest -- --template basics
-```
+Sitio web de e-commerce desarrollado con [Astro](https://astro.build/) y Node.js.  
+Carga productos por categoría a través de la URL usando parámetros GET, y ofrece una interfaz dinámica con componentes reutilizables.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+---
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 📦 Stack Técnico
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+- ⚙️ Astro `^5.7.5`
+- 🟩 Node.js `v18.20.6`
+- 💅 HTML + CSS + Astro Components
 
-## 🚀 Project Structure
+---
 
-Inside of your Astro project, you'll see the following folders and files:
+## 📁 Archivos ignorados (.gitignore)
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+Build output
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+dist/
+Tipos generados
 
-## 🧞 Commands
+.astro/
+Dependencias
 
-All commands are run from the root of the project, from a terminal:
+node_modules/
+Logs
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+npm-debug.log* yarn-debug.log* yarn-error.log* pnpm-debug.log*
+Variables de entorno
 
-## 👀 Want to learn more?
+.env .env.production
+macOS
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+.DS_Store
+JetBrains
+
+.idea/
+
+
+---
+
+## 🛠️ Configuración requerida
+
+Una vez descargado el repositorio, asegurate de que tu archivo `astro.config.mjs` tenga la siguiente configuración:
+
+```js
+import { defineConfig } from 'astro/config';
+
+export default defineConfig({
+  output: 'server',
+});
+
+    ✅ Esto es obligatorio para que las rutas funcionen correctamente con parámetros GET.
+
+🌐 Estructura del proyecto
+📄 Páginas
+
+    index.astro
+    📍 src/pages/index.astro
+    Página de inicio que carga automáticamente los siguientes componentes:
+    <Header />, <Welcome /> y <Footer />
+
+    ProductosPage.astro
+    📍 src/pages/ProductosPage.astro
+    Similar a la principal, pero con contenido dinámico en el centro gracias al componente <Productos />, que muestra los productos por categoría.
+
+🧩 Componentes
+
+    <Header />
+    📍 src/components/Header.astro
+    Cabecera del sitio con menú horizontal. Las opciones redirigen a ProductosPage.astro enviando la categoría como parámetro.
+
+    <Welcome />
+    📍 src/components/Welcome.astro
+    Contenido de bienvenida que incluye atajos a categorías. Redirige a ProductosPage.astro con el parámetro correspondiente.
+
+    <Footer />
+    📍 src/components/Footer.astro
+    Pie de página del sitio. (Actualmente sin funcionalidades activas)
+
+    <Productos />
+    📍 src/components/Productos.astro
+    Muestra productos según la categoría pasada por GET, por ejemplo:
+    ProductosPage?categoria=category/smartphones
+
+    🚧 En desarrollo:
+
+        🛒 Agregar al carrito ("Comprar")
+
+        🙋‍♂️ Registro de usuario ("Registrarse")
+
+🧪 Requisitos
+
+    Node.js v18.20.6 o superior
+
+    Astro CLI instalado globalmente (opcional pero recomendado)
+
+💻 Instalación rápida
+
+git clone https://github.com/koke2911/ecomers-astro
+cd ecomers-astro
+npm install
+npm run dev
+
+📬 Contacto
+
+¿Tenés ideas o sugerencias? ¡Abrí un issue o mandá un pull request!
+📧 victor.martinez.zamorano@estudiante.ipss.cl 
+📝 Licencia
+
+VMZ © 2025 - [Victor Martínez Zamora]
+
+
