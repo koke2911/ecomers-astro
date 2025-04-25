@@ -1,0 +1,56 @@
+---
+// Footer.astro
+---
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2025 E-Comers Fullstack. Todos los derechos reservados.</p>
+        <ul class="footer-links">
+            <li><a href="/acerca">Acerca de</a></li>
+            <li><a href="/terminos">Términos y condiciones</a></li>
+            <li><a href="/privacidad">Política de privacidad</a></li>
+            <li><a href="/contacto">Contacto</a></li>
+        </ul>
+    </div>
+</footer>
+
+<style>
+    .footer {
+        background-color: rgb(0, 113, 227);
+        color: white;
+        padding: 2rem 0;
+        text-align: center;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .footer-links {
+        list-style: none;
+        padding: 0;
+        margin-top: 1rem;
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+    }
+
+    .footer-links li {
+        display: inline-block;
+    }
+
+    .footer-links a {
+        text-decoration: none;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+        color: rgb(0, 95, 191);
+    }
+
+    .footer p {
+        font-size

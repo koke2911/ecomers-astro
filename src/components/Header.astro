@@ -1,0 +1,260 @@
+---
+import logo from "../assets/logo.png";
+
+const url = new URL(Astro.request.url);
+let myParam = url.searchParams.get("categoria");
+
+if (myParam === null) {
+    myParam = "";
+}
+
+let urlAPI = "https://dummyjson.com/products/category-list";
+
+const response = await fetch(urlAPI);
+const data = await response.json();
+---
+
+<meta charset="UTF-8" />
+<title>E-Comers Fullstack</title>
+<link rel="icon" type="image/png" href="../assets/logo.png" />
+
+<header class="header">
+    <div class="logo-container">
+        <img
+            src="/src/assets/logo.png"
+            alt="Logo de la tienda"
+            class="logo"
+        />
+        E-Comers Fullstack
+    </div>
+    <button class="nav-toggle" id="navToggle"> ☰ </button>
+    <nav class="nav">
+        <ul class="nav-list" id="navList">
+            <li><p class="nav-link" id="InicioBtn">Inicio</p></li>
+            <li>
+                <p class="nav-link" id="ProductosBtn">Productos</p>
+            </li>
+            <li>
+                <p class="nav-link" id="SmartphonesBtn">Smartphones</p>
+            </li>
+            <li>
+                <p class="nav-link" id="AccesoriosBtn">Accesorios</p>
+            </li>
+            <li><p class="nav-link" id="OfertasBtn">Ofertas</p></li>
+            <li>
+                <select id="categorias" style="padding: 10px; background-color: white; border: 0px; border-radius: 10px; font-size: 15px; font-weight: 400; letter-spacing: -0.01em; font-family: SF Pro Text, SF Pro Icons, Helvetica Neue, Helvetica, Arial, sans-serif; line-height: 1; color: var(--r-globalnav-color); white-space: nowrap; cursor: pointer;">
+                    <option value="--">Categorias</option>
+                    {data.map((cat: any) => <option value={cat}>{cat}</option>)}
+                </select>
+            </li>
+        </ul>
+    </nav>
+    <a id="registroBtn" class="nav-link">Registrate</a>
+    <div class="cart-container">
+        <button class="cart-btn">
+            <span class="cart-icon">🛒</span>
+            <span class="cart-count">0</span>
+        </button>
+    </div>
+</header>
+
+<script>
+    document.getElementById("navToggle").addEventListener("click", () => {
+        const navList = document.getElementById("navList");
+        navList.classList.toggle("show");
+    });
+    document.getElementById("ProductosBtn").addEventListener("click", () => {
+        window.location.href = "/ProductosPage";
+    });
+    document.getElementById("InicioBtn").addEventListener("click", () => {
+        window.location.href = "/";
+    });
+    document.getElementById("SmartphonesBtn").addEventListener("click", () => {
+        window.location.href = "/ProductosPage?categoria=category/smartphones";
+    });
+    document.getElementById("AccesoriosBtn").addEventListener("click", () => {
+        window.location.href =
+            "/ProductosPage?categoria=category/mobile-accessories";
+    });
+    document.getElementById("OfertasBtn").addEventListener("click", () => {
+        window.location.href = "/ProductosPage?categoria=category/tablets";
+    });
+
+    document
+        .getElementById("categorias")
+        .addEventListener("change", (event) => {
+            const selectedCategory = event.target.value;
+            if (selectedCategory !== "--") {
+                window.location.href = `/ProductosPage?categoria=category/${selectedCategory}`;
+            }
+        });
+</script>
+
+<style>
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background-color: rgb(245, 245, 247);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        flex-wrap: wrap;
+    }
+
+    .logo-container img {
+        height: 50px;
+        width: auto;
+    }
+
+    .nav {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        position: relative;
+    }
+
+    .nav-list {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav-link {
+        /* text-decoration: none;
+        color: rgb(0, 113, 227);
+        font-size: 18px;
+        font-weight: bold;
+        transition: color 0.3s ease;
+        border: none; */
+        font-size: 15px;
+        font-weight: 400;
+        letter-spacing: -0.01em;
+        font-family:
+            SF Pro Text,
+            SF Pro Icons,
+            Helvetica Neue,
+            Helvetica,
+            Arial,
+            sans-serif;
+        line-height: 1;
+        color: var(--r-globalnav-color);
+        white-space: nowrap;
+        cursor: pointer;
+    }
+
+    .nav-link:hover {
+        color: rgb(0, 95, 191);
+        transform: scale(1.2);
+    }
+
+    .cart-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .cart-btn {
+        background-color: rgb(0, 113, 227);
+        color: white;
+        padding: 0.5rem 1rem;
+        font-size: 18px;
+        border-radius: 30px;
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        margin-left: 2em;;
+    }
+
+    .cart-btn:hover {
+        background-color: rgb(0, 95, 191);
+    }
+
+    .cart-icon {
+        font-size: 20px;
+    }
+
+    .cart-count {
+        background-color: white;
+        color: rgb(0, 113, 227);
+        border-radius: 50%;
+        padding: 0.3rem 0.6rem;
+        font-size: 14px;
+    }
+
+    .nav-toggle {
+        display: none;
+    }
+
+    /* Media Queries */
+    @media (max-width: 861px) {
+        .header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .nav {
+            width: 100%;
+            justify-content: flex-start;
+            margin-top: 1rem;
+        }
+
+        .nav-list {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            padding: 0;
+            gap: 1rem;
+        }
+
+        .nav-list.show {
+            display: flex;
+        }
+
+        .nav-link {
+            width: 100%;
+            text-align: left;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-link:hover {
+            color: rgb(0, 95, 191);
+            transform: scale(1);
+        }
+
+        .cart-container {
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .cart-btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .nav-toggle {
+            display: block;
+            background-color: rgb(0, 113, 227);
+            color: white;
+            padding: 0.5rem 1rema
+            font-size: 18px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .nav-toggle:hover {
+            background-color: rgb(0, 95, 191);
+        }
+
+        #registroBtn {
+         margin-;
+        }
+    }
+</style>

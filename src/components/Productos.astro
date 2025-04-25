@@ -1,0 +1,313 @@
+---
+const url = new URL(Astro.request.url);
+let myParam = url.searchParams.get("categoria");
+let categoria = "";
+if (myParam === null) {
+    myParam = "";
+} else {
+    const parts = myParam.split("/");
+    categoria = parts.length > 1 ? parts[1].charAt(0).toUpperCase() + parts[1].slice(1) : "";
+}
+
+let urlAPI = "https://dummyjson.com/products/" + myParam;
+
+const response = await fetch(urlAPI);
+const data = await response.json();
+---
+
+<div id="TituloProductos">
+    {categoria}
+</div>
+
+<div class="container">
+    {
+        data.products.map((prd: any) => (
+            <div class="card">
+                <div class="divClass" id="ImageContainer">
+                    <img id="image" src={prd.images[0]} height="180px" />
+                </div>
+                <button id="btn_ver">Ver</button>
+                <div class="divClass" id="NameContainer">
+                    <div class="content">{prd.title}</div>
+                </div>
+                <div class="divClass" id="DescriptionContainer">
+                    <div class="content">{prd.description}</div>
+                </div>
+                <div class="divClass" id="PriceContainer">
+                    <div class="content">Desde USD {prd.price}</div>
+                </div>
+                <div class="divClass" id="BtnContainer">
+                    <div style="display: flex; gap: 1rem; justify-content: center;">
+                        <button id="btn_comprar">Comprar </button>
+                    </div>
+                </div>
+            </div>
+        ))
+    }
+    <div id="ModalDiv">
+        <h1>Debe registrarse primero para poder comprar.</h1>
+        <div id="AceptarDialogo">
+            <button id="btn_aceptar">Aceptar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll("#btn_ver").forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+            const src = event.target
+                .closest(".card")
+                .querySelector("#image").src;
+
+            const overlay = document.createElement("div");
+            overlay.style.position = "fixed";
+            overlay.style.top = "0";
+            overlay.style.left = "0";
+            overlay.style.width = "100vw";
+            overlay.style.height = "100vh";
+            overlay.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+            overlay.style.display = "flex";
+            overlay.style.alignItems = "center";
+            overlay.style.justifyContent = "center";
+            overlay.onclick = () => overlay.remove(); // Close on click
+
+            const img = document.createElement("img");
+            img.src = src;
+            img.style.maxWidth = "90vw";
+            img.style.maxHeight = "90vh";
+
+            overlay.appendChild(img);
+            document.body.appendChild(overlay);
+        });
+    });
+
+    document.querySelectorAll("#btn_comprar").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const modalDiv = document.getElementById("ModalDiv");
+            modalDiv.style.display = "block";
+            modalDiv.onclick = () => (modalDiv.style.display = "none"); // Close on click
+        });
+    });
+</script>
+
+<style>
+    .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        padding: 2rem;
+        background-image: url("/src/assets/background.svg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .card {
+        background-color: rgb(245, 245, 247);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+        color: #333;
+        text-align: center;
+    }
+
+    .divClass {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    #ImageContainer {
+        height: 180px;
+        background-color: #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    #image {
+        width: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    .content {
+        padding: 0.5rem;
+        /* background-color: #f1f1f1; */
+        border-radius: 4px;
+    }
+    #DescriptionContainer {
+        font-size: 17px;
+        line-height: 1.4705882353;
+        font-weight: 400;
+        letter-spacing: -0.022em;
+        font-family:
+            SF Pro Text,
+            SF Pro Icons,
+            Helvetica Neue,
+            Helvetica,
+            Arial,
+            sans-serif;
+    }
+
+    #NameContainer {
+        font-size: 28px;
+        line-height: 1.1428571429;
+        font-weight: bold;
+        letter-spacing: 0.007em;
+        font-family:
+            SF Pro Display,
+            SF Pro Icons,
+            Helvetica Neue,
+            Helvetica,
+            Arial,
+            sans-serif;
+    }
+
+    #PriceContainer {
+        font-size: 17px;
+        line-height: 1.4705882353;
+        font-weight: 600;
+        letter-spacing: -0.022em;
+        font-family:
+            SF Pro Text,
+            SF Pro Icons,
+            Helvetica Neue,
+            Helvetica,
+            Arial,
+            sans-serif;
+    }
+
+    #btn_ver {
+        background-color: #0071e3;
+        color: white;
+        border-radius: 20px;
+        padding: 10px;
+        font-size: 17px;
+        border: 0px;
+        /* border-color: rgb(0, 113, 227); */
+    }
+    #btn_ver:hover {
+        background-color: rgb(245, 245, 247);
+        color: rgb(0, 113, 227);
+        cursor: pointer;
+        border-color: rgb(0, 113, 227);
+    }
+
+    #btn_comprar {
+        background-color: rgb(245, 245, 247);
+        color: rgb(0, 113, 227);
+        font-size: 17px;
+        padding: 10px;
+        border-image: linear-gradient(
+            to right,
+            #ff0066,
+            #ff6600,
+            #902fbd,
+            #11bddb,
+            #0000ff
+        );
+        /* border-radius: 20px; */
+        border-image-slice: 1;
+        border-style: solid;
+        border-width: 2px;
+    }
+
+    #btn_comprar:hover {
+        background-color: rgb(0, 95, 191);
+        cursor: pointer;
+        color: white;
+        font-size: 17px;
+        padding: 10px;
+        border-image: linear-gradient(
+            to right,
+            #ff0066,
+            #ff6600,
+            #902fbd,
+            #11bddb,
+            #0000ff
+        );
+        /* border-radius: 20px; */
+        border-image-slice: 1;
+        border-style: solid;
+        border-width: 2px;
+    }
+
+    #ModalDiv {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        /* border: solid; */
+        padding: 20px;
+        display: none;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        font-size: 17px;
+        line-height: 1.4705882353;
+        font-weight: 400;
+        letter-spacing: -0.022em;
+        font-family:
+            SF Pro Text,
+            SF Pro Icons,
+            Helvetica Neue,
+            Helvetica,
+            Arial,
+            sans-serif;
+        color: #7a7a8a;
+    }
+
+    #AceptarDialogo {
+        display: flex;
+        justify-content: center;
+
+        /* background-color: #0071e3;
+        color: white;
+        border-radius: 20px;
+        padding: 10px;
+        font-size: 17px;
+        border: 0px; */
+    }
+
+    #btn_aceptar {
+        background-color: #0071e3;
+        color: white;
+        border-radius: 20px;
+        padding: 10px;
+        font-size: 17px;
+        border: 0px;
+    }
+
+    #btn_aceptar:hover {
+        background-color: rgb(245, 245, 247);
+        color: rgb(0, 113, 227);
+        cursor: pointer;
+        border-color: rgb(0, 113, 227);
+    }
+
+    #TituloProductos{
+        font-size: 28px;
+        line-height: 1.1428571429;
+        font-weight: bold;
+        letter-spacing: 0.007em;
+        font-family:
+            SF Pro Display,
+            SF Pro Icons,
+            Helvetica Neue,
+            Helvetica,
+            Arial,
+            sans-serif;
+        padding: 20px;
+        text-align: center;
+    }
+</style>
